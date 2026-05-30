@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500&family=Bebas+Neue&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* User specific variables */
+    --bg-page: #F4F0EB;
+    --bg-card: #FFFFFF;
+    --bg-sidebar: #1C1C1C;
+    --toyota-red: #EB0A1E;
+    --red-hover: #C8000F;
+    --red-light: #FFF0F0;
+    --text-dark: #1A1A1A;
+    --text-muted: #7A7A7A;
+    --border-user: #E8E2D9;
+    --shadow-main: 0 2px 12px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.12);
+
+    /* Shadcn required variables mapped to Toyota theme */
+    --background: var(--bg-page);
+    --foreground: var(--text-dark);
+    --card: var(--bg-card);
+    --card-foreground: var(--text-dark);
+    --popover: var(--bg-card);
+    --popover-foreground: var(--text-dark);
+    --primary: var(--toyota-red);
+    --primary-foreground: #FFFFFF;
+    --secondary: #E8E2D9;
+    --secondary-foreground: var(--text-dark);
+    --muted: #E8E2D9;
+    --muted-foreground: var(--text-muted);
+    --accent: var(--red-light);
+    --accent-foreground: var(--toyota-red);
+    --destructive: #EF4444;
+    --destructive-foreground: #FFFFFF;
+    --border: var(--border-user);
+    --input: var(--border-user);
+    --ring: var(--toyota-red);
+    --radius: 0.75rem; /* rounded-xl */
+  }
+
+  .dark {
+    /* We do not support dark mode as per requirements, defaulting to light mode */
+    --background: var(--bg-page);
+    --foreground: var(--text-dark);
+    --card: var(--bg-card);
+    --card-foreground: var(--text-dark);
+    --popover: var(--bg-card);
+    --popover-foreground: var(--text-dark);
+    --primary: var(--toyota-red);
+    --primary-foreground: #FFFFFF;
+    --secondary: #E8E2D9;
+    --secondary-foreground: var(--text-dark);
+    --muted: #E8E2D9;
+    --muted-foreground: var(--text-muted);
+    --accent: var(--red-light);
+    --accent-foreground: var(--toyota-red);
+    --destructive: #EF4444;
+    --destructive-foreground: #FFFFFF;
+    --border: var(--border-user);
+    --input: var(--border-user);
+    --ring: var(--toyota-red);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    background-color: var(--bg-page);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+.stat-number {
+  font-family: 'Bebas Neue', cursive;
+  color: var(--text-dark);
+}
+
+.payout-number {
+  font-family: 'Bebas Neue', cursive;
+  color: var(--toyota-red);
+}
