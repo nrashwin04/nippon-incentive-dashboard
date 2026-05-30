@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -23,7 +23,7 @@ export default function AdminCarsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const supabase = createClient();
+  const { supabase } = useAuth();
   
   // Form State
   const [modelName, setModelName] = useState("");
@@ -34,10 +34,12 @@ export default function AdminCarsPage() {
   const [tier, setTier] = useState<"Tier A" | "Tier S" | "Tier Premium">("Tier A");
 
   useEffect(() => {
+    if (!supabase) return;
+
     fetchCars();
 
     const channel = supabase.channel("custom-all-channel")
-      .on("postgres_changes", { event: "*", schema: "public", table: "cars" }, (payload) => {
+      .on("postgres_changes", { event: "*", schema: "public", table: "cars" }, (payload: any) => {
         fetchCars();
       })
       .subscribe();
@@ -45,7 +47,7 @@ export default function AdminCarsPage() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [supabase]);
 
   const fetchCars = async () => {
     const { data } = await supabase.from("cars").select("*").order("model_name", { ascending: true });

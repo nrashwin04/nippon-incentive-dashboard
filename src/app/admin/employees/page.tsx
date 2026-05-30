@@ -1,16 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, Shield, Award } from "lucide-react";
 
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const { supabase } = useAuth();
 
   useEffect(() => {
+    if (!supabase) return;
+    
     const fetchUsers = async () => {
       try {
         const { data } = await supabase.from("users").select("*");

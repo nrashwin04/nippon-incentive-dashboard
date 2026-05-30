@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -19,11 +18,11 @@ const MOCK_LINE_DATA = [
 export default function AdminDashboard() {
   const [salesData, setSalesData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const { userName } = useAuth();
-  const supabase = createClient();
+  const { userName, supabase } = useAuth();
   const [selectedMonth, setSelectedMonth] = useState("May 2026");
 
   useEffect(() => {
+    if (!supabase) return;
     const fetchStats = async () => {
       try {
         const { data } = await supabase.from("monthly_sales").select("*").eq("month", selectedMonth);

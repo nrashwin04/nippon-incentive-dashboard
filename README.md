@@ -1,5 +1,7 @@
 # nippon-incentive-dashboard
 
+🚀 **Live Demo:** [https://nippon-incentive-dashboard.vercel.app/](https://nippon-incentive-dashboard.vercel.app/)
+
 A full-stack internal dashboard built with **Next.js 14** and **Supabase** for managing sales incentives at Nippon Toyota, Kochi Branch, Kerala. Sales officers log monthly car volumes and see progressive incentive payouts in real time, while admins manage inventory, configure slab tiers, and monitor branch-wide performance.
 
 ---
@@ -10,6 +12,20 @@ A full-stack internal dashboard built with **Next.js 14** and **Supabase** for m
 |---|---|---|
 | **Admin** | Branch Manager | Dashboard analytics, car inventory, slab config, employee directory, reports |
 | **Officer** | Sales Staff | Log sales per model, real-time payout calculator, progressive tier tracker |
+
+---
+
+## Live Demo Accounts
+
+If you are testing this application on Vercel, you can use the following credentials to explore the different role-based views:
+
+**ADMIN ACCOUNT**
+- Email: `admin@toyota.com`
+- Password: `admin123`
+
+**OFFICER ACCOUNT**
+- Email: `officer@toyota.com`
+- Password: `admin123`
 
 ---
 

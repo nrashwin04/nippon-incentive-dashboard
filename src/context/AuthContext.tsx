@@ -10,6 +10,7 @@ interface AuthContextType {
   role: Role;
   userName: string | null;
   loading: boolean;
+  supabase: any;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -17,6 +18,7 @@ const AuthContext = createContext<AuthContextType>({
   role: null,
   userName: null,
   loading: true,
+  supabase: null,
 });
 
 export const useAuth = () => useContext(AuthContext);
@@ -26,7 +28,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<Role>(null);
   const [userName, setUserName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const [supabase] = useState(() => createClient());
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -36,9 +38,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (user) {
         try {
           const { data, error } = await supabase.from("users").select("*").eq("email", user.email).single();
-          if (error) {
-            console.error("Supabase query error in AuthContext:", error);
-          }
           if (data) {
             setRole(data.role || null);
             setUserName(data.full_name || user.email || null);
@@ -47,7 +46,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             setUserName(null);
           }
         } catch (error) {
-          console.error("Exception in AuthContext:", error);
           setRole(null);
           setUserName(null);
         }
@@ -64,10 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       async (event, session) => {
         if (session?.user) {
           setUser(session.user);
-          const { data, error } = await supabase.from("users").select("*").eq("email", session.user.email).single();
-          if (error) {
-            console.error("Auth listener query error:", error);
-          }
+          const { data } = await supabase.from("users").select("*").eq("email", session.user.email).single();
           if (data) {
             setRole(data.role || null);
             setUserName(data.full_name || session.user.email || null);
@@ -83,10 +78,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, []);
+  }, [supabase]);
 
   return (
-    <AuthContext.Provider value={{ user, role, userName, loading }}>
+    <AuthContext.Provider value={{ user, role, userName, loading, supabase }}>
       {children}
     </AuthContext.Provider>
   );

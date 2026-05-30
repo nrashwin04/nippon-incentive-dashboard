@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -20,7 +20,7 @@ export default function AdminSlabsPage() {
   const [slabs, setSlabs] = useState<Slab[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const supabase = createClient();
+  const { supabase } = useAuth();
 
   // Form State
   const [tierName, setTierName] = useState("");
@@ -29,13 +29,15 @@ export default function AdminSlabsPage() {
   const [incentivePerCar, setIncentivePerCar] = useState<number | "">("");
 
   useEffect(() => {
+    if (!supabase) return;
+
     fetchSlabs();
     
     const channel = supabase.channel("custom-all-channel")
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "incentive_slabs" },
-        (payload) => {
+        (payload: any) => {
           fetchSlabs();
         }
       )
@@ -44,7 +46,7 @@ export default function AdminSlabsPage() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [supabase]);
 
   const fetchSlabs = async () => {
     const { data } = await supabase.from("incentive_slabs").select("*").order("min_cars", { ascending: true });

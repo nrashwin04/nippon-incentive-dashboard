@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -10,13 +9,14 @@ import { formatIndianCurrency } from "@/lib/incentiveCalc";
 import { Car, Trophy, Award } from "lucide-react";
 
 export default function OfficerDashboard() {
-  const { user, userName } = useAuth();
-  const supabase = createClient();
+  const { user, userName, supabase } = useAuth();
   const [salesData, setSalesData] = useState<any[]>([]);
   const [month, setMonth] = useState("May 2026");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!supabase) return;
+    
     const fetchStats = async () => {
       setLoading(true);
       try {
