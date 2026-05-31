@@ -144,7 +144,7 @@ export default function AdminCarsPage() {
       <div className="flex flex-col md:flex-row md:items-end justify-between">
         <div>
           <h1 className="text-3xl font-bold font-heading text-[var(--text-dark)]">Car Inventory</h1>
-          <p className="mt-1 text-sm text-[var(--text-muted)]">Manage vehicle stock and incentive tiers</p>
+          <p className="mt-1 text-sm text-[var(--text-muted)]">Manage vehicle stock and segments</p>
         </div>
         <div className="mt-4 md:mt-0">
           <Button 
@@ -181,7 +181,7 @@ export default function AdminCarsPage() {
                 <th className="px-6 py-4 font-semibold">Model Name</th>
                 <th className="px-6 py-4 font-semibold">Variant</th>
                 <th className="px-6 py-4 font-semibold">Base Suffix</th>
-                <th className="px-6 py-4 font-semibold">Incentive Tier</th>
+                <th className="px-6 py-4 font-semibold">Segment</th>
                 <th className="px-6 py-4 font-semibold">Stock</th>
                 <th className="px-6 py-4 font-semibold">Status</th>
                 <th className="px-6 py-4 font-semibold text-right">Actions</th>
@@ -284,7 +284,7 @@ export default function AdminCarsPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Incentive Tier</label>
+              <label className="text-sm font-medium">Segment</label>
               <Select value={tier} onValueChange={(v) => setTier(v as "Tier A" | "Tier S" | "Tier Premium")}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
